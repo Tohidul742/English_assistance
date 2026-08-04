@@ -1,0 +1,7 @@
+node_modules
+dist
+coverage
+build
+.env
+*.log
+pnpm-lock.yaml
