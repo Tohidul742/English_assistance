@@ -1,8 +1,13 @@
-import express from 'express';
-import type { Express } from 'express';
+import express, { type Application } from 'express';
+import router from './routes/index.js';
+import cros from 'cors';
+import { loggerMiddleware } from './middleware/logger.middleware.js';
 
-const app: Express = express();
-app.use(express.json());
-app.use();
-
-export default app;
+export function createServerApplication(): Application {
+  const app = express();
+  app.use(cros());
+  app.use(express.json());
+  app.use(loggerMiddleware);
+  app.use(router);
+  return app;
+}
