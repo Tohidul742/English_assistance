@@ -1,0 +1,52 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: backend-api
+
+    restart: unless-stopped
+
+    ports:
+      - '3000:3000'
+
+    env_file:
+      - .env
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+    command: pnpm dev
+
+  postgres:
+    image: postgres:17-alpine
+
+    container_name: backend-postgres
+
+    restart: unless-stopped
+
+    ports:
+      - '5432:5432'
+
+    environment:
+      POSTGRES_USER: assestance_ai
+      POSTGRES_PASSWORD: password_ai_2027
+      POSTGRES_DB: backend_db
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres_data:

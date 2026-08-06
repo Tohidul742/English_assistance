@@ -18,20 +18,27 @@
   "license": "ISC",
   "packageManager": "pnpm@10.33.0",
   "devDependencies": {
+    "@eslint/js": "latest",
     "@types/express": "^5.0.6",
     "@types/node": "^26.1.2",
     "@typescript-eslint/eslint-plugin": "^8.66.0",
     "@typescript-eslint/parser": "^8.66.0",
     "eslint": "^10.8.0",
+    "globals": "latest",
     "husky": "^9.1.7",
     "lint-staged": "^17.3.0",
     "prettier": "^3.9.6",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "typescript-eslint": "latest"
   },
   "lint-staged": {
     "*.{ts,js,json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@types/dotenv": "^8.2.3",
+    "dotenv": "^17.4.2"
   }
 }
