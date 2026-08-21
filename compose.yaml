@@ -1,28 +1,29 @@
 services:
-  # api:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
 
-  #   container_name: backend-api
+    container_name: backend-api
 
-  #   restart: unless-stopped
+    restart: unless-stopped
 
-  #   ports:
-  #     - '3000:3000'
+    ports:
+      - '127.0.0.1:3000:3000'
 
-  #   env_file:
-  #     - .env
+    env_file:
+      - .env
 
-  #   depends_on:
-  #     postgres:
-  #       condition: service_healthy
+    depends_on:
+      postgres:
+        condition: service_healthy
 
-  #   volumes:
-  #     - .:/app
-  #     - /app/node_modules
+    # Use these volumes and command for local development (hot reload)
+    volumes:
+      - .:/app
+      - /app/node_modules
 
-  #   command: pnpm dev
+    command: pnpm dev
 
   postgres:
     image: postgres:17-alpine
