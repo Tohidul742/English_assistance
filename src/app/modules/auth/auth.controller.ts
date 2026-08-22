@@ -40,6 +40,7 @@ export class AuthController {
   public signUp = async (req: Request, res: Response): Promise<void> => {
     try {
       const playload: SignUpDto = req.body;
+      // console.log(playload)
       const result = await this.authService.SignUp(playload);
 
       const { refreshToken } = result;

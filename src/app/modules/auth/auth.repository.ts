@@ -9,6 +9,7 @@ export class AuthRepository {
     return result[0] || null;
   }
   public async createUser(payload: SignUpDto) {
+    // console.log('hello from repository', payload);
     const result = await db
       .insert(users)
       .values({
@@ -17,6 +18,7 @@ export class AuthRepository {
         password: payload.password,
       })
       .returning();
+    console.log(result);
     return result[0] || null;
   }
 }

@@ -66,7 +66,7 @@ jobs:
           script: |
             # Ensure the directory exists
             mkdir -p ~/English_assistance
-            
+
             # Write the .env file securely from GitHub Secrets
             echo "${{ secrets.ENV_FILE }}" > ~/English_assistance/.env
 
@@ -76,8 +76,8 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          source: "compose.yaml"
-          target: "~/English_assistance"
+          source: 'compose.yaml'
+          target: '~/English_assistance'
 
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3

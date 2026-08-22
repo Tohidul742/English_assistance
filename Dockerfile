@@ -26,6 +26,8 @@ RUN pnpm install --frozen-lockfile --prod --ignore-scripts
 
 COPY --from=builder /app/dist ./dist
 
+COPY --from=builder /app/src/db/migrations ./src/db/migrations
+
 EXPOSE 3000
 
-CMD ["node", "dist/server.js"]
+CMD ["sh", "-c", "node dist/db/migrate.js && node dist/server.js"]
