@@ -4,11 +4,6 @@ import { AuthRoutes } from '../../modules/auth/auth.routes.js';
 
 const router: Router = Router();
 
-// Static home route (optional)
-router.get('/', (req, res) => {
-  res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
-});
-
 // Define all module routes here
 const moduleRoutes = [
   {
