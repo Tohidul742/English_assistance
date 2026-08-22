@@ -1,8 +1,6 @@
 services:
   api:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/tohidul742/english_assistance:latest
 
     container_name: backend-api
 
@@ -18,12 +16,8 @@ services:
       postgres:
         condition: service_healthy
 
-    # Use these volumes and command for local development (hot reload)
-    volumes:
-      - .:/app
-      - /app/node_modules
-
-    command: pnpm dev
+    networks:
+      - app_network
 
   postgres:
     image: postgres:17-alpine
@@ -49,5 +43,12 @@ services:
       timeout: 5s
       retries: 10
 
+    networks:
+      - app_network
+
 volumes:
   postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
