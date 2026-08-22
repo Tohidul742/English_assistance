@@ -54,6 +54,31 @@ jobs:
     needs: build-and-push-image
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create folder on EC2 and Write .env file
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Ensure the directory exists
+            mkdir -p ~/English_assistance
+            
+            # Write the .env file securely from GitHub Secrets
+            echo "${{ secrets.ENV_FILE }}" > ~/English_assistance/.env
+
+      - name: Copy compose.yaml to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "compose.yaml"
+          target: "~/English_assistance"
+
       - name: Deploy to EC2
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -61,17 +86,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Login to GitHub Container Registry on EC2
             echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            
-            # Change this path to where your project is stored on your EC2 instance!
             cd ~/English_assistance
-            
-            # If your project uses git on the server, you may want to uncomment the line below to pull your compose.yaml updates
-            # git pull origin main
-
-            # Pull the new image from GHCR
             docker compose pull
-            
-            # Restart the containers in detached mode
             docker compose up -d
