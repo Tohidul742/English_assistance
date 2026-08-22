@@ -13,15 +13,15 @@ export function createServerApplication(): Application {
   app.use(cookieParser());
   app.use(loggerMiddleware);
 
+  app.get('/', (req, res) => {
+    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
+  });
   // Health check endpoint
   app.get('/health', (req, res) => {
     res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
   });
 
   // Mount the global router with a version prefix
-  app.get('/', (req, res) => {
-    res.sendFile(path.join(process.cwd(), 'public', 'index.html'));
-  });
 
   app.use('/api/v1', routerV1);
   // Mount the global router with a version prefix
